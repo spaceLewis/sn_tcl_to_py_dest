@@ -1,2 +1,9 @@
-# migration of tcl project to python
-print('migration of tcl project to python')
+
+
+#!/usr/bin/env python3
+
+def main():
+    print("Hello, World!")
+
+if __name__ == "__main__":
+    main()
