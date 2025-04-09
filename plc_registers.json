@@ -1,0 +1,63 @@
+
+
+package plc_registers;
+
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+public class PlcRegisters {
+    private Map<String, String> plcRegisters;
+    private Gson gson;
+
+    public PlcRegisters() {
+        plcRegisters = new HashMap<>();
+        gson = new GsonBuilder().create();
+    }
+
+    public void addPlcRegister(String deviceNumber, String plcRegisterNumber) {
+        if (deviceNumber != null && !deviceNumber.isEmpty() && plcRegisterNumber != null && !plcRegisterNumber.isEmpty()) {
+            plcRegisters.put(deviceNumber, plcRegisterNumber);
+            writeToJsonFile();
+        }
+    }
+
+    public String getPlcRegister(String deviceNumber) {
+        if (deviceNumber != null && !deviceNumber.isEmpty()) {
+            return plcRegisters.get(deviceNumber);
+        }
+        return null;
+    }
+
+    public Map<String, String> getPlcRegisters() {
+        return plcRegisters;
+    }
+
+    public void readFromJsonFile() {
+        try (FileReader reader = new FileReader("plc_registers.json")) {
+            JsonElement jsonElement = JsonParser.parseReader(reader);
+            JsonObject jsonObject = jsonElement.getAsJsonObject();
+            for (String key : jsonObject.keySet()) {
+                plcRegisters.put(key, jsonObject.get(key).getAsString());
+            }
+        } catch (IOException e) {
+            // handle exception
+        }
+    }
+
+    public void writeToJsonFile() {
+        try (FileWriter writer = new FileWriter("plc_registers.json")) {
+            gson.toJson(plcRegisters, writer);
+        } catch (IOException e) {
+            // handle exception
+        }
+    }
+}

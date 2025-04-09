@@ -1,0 +1,56 @@
+
+
+```python
+import csv
+import logging
+
+class ValueParametersTXT:
+    def __init__(self, file_name):
+        self.file_name = file_name
+        self.ListValue = []
+        self.ListNumber = []
+        self.ValuesList = []
+        self.logger = logging.getLogger(__name__)
+
+    def validate_file_name(self):
+        if not isinstance(self.file_name, str) or not self.file_name.endswith('.txt'):
+            self.logger.error('Invalid file name. It should be a string and end with .txt')
+            raise ValueError('Invalid file name')
+
+    def read_and_parse_file(self):
+        try:
+            self.validate_file_name()
+            with open(self.file_name, 'r') as file:
+                reader = csv.reader(file)
+                for row in reader:
+                    for value in row:
+                        try:
+                            self.ListNumber.append(float(value))
+                        except ValueError:
+                            self.ListValue.append(value)
+                        self.ValuesList.append(value)
+        except FileNotFoundError:
+            self.logger.error(f'File {self.file_name} not found')
+        except csv.Error as e:
+            self.logger.error(f'Error parsing CSV file: {e}')
+        except Exception as e:
+            self.logger.error(f'An error occurred: {e}')
+
+    def get_list_value(self):
+        return self.ListValue
+
+    def get_list_number(self):
+        return self.ListNumber
+
+    def get_values_list(self):
+        return self.ValuesList
+
+# Usage
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.ERROR)
+    value_parameters_txt = ValueParametersTXT('ValueParametersTXT.txt')
+    value_parameters_txt.read_and_parse_file()
+    print(value_parameters_txt.get_list_value())
+    print(value_parameters_txt.get_list_number())
+    print(value_parameters_txt.get_values_list())
+```

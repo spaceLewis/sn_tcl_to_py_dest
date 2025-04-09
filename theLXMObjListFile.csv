@@ -1,0 +1,22 @@
+
+
+import csv
+
+theLXMObjHashtable = []
+theLXMObjNrHashtable = {}
+
+try:
+    with open('theLXMObjListFile.csv', 'r') as file:
+        reader = csv.reader(file)
+        for row in reader:
+            theLXMObjHashtable.append(row)
+            theLXMObjNrHashtable[row[0]] = int(row[1])
+except Exception as e:
+    print(f"Error reading file: {e}")
+
+try:
+    with open('theLXMObjListFile.csv', 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerows(theLXMObjHashtable)
+except Exception as e:
+    print(f"Error writing file: {e}")

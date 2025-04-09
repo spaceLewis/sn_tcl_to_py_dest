@@ -1,0 +1,37 @@
+
+
+```python
+import csv
+
+class VARListReader:
+    def __init__(self):
+        self.theLXMVARHashtable = {}
+        self.theVARNrHashtable = {}
+
+    def ReadVARListFile(self, filename, print_list=False):
+        try:
+            with open(filename, 'r') as file:
+                reader = csv.reader(file)
+                for row in reader:
+                    if len(row) < 2:
+                        raise ValueError("Invalid CSV row: expected at least two elements")
+                    var_name = row[0].strip()
+                    var_nr = row[1].strip()
+                    if not var_name or not var_nr:
+                        raise ValueError("Invalid variable name or number: cannot be empty or None")
+                    self.theLXMVARHashtable[var_name] = var_nr
+                    self.theVARNrHashtable[var_nr] = var_name
+        except FileNotFoundError:
+            print(f"Error: file '{filename}' not found")
+        except csv.Error as e:
+            print(f"Error: failed to read CSV file '{filename}': {e}")
+        except ValueError as e:
+            print(f"Error: {e}")
+        if print_list:
+            for var_name, var_nr in self.theLXMVARHashtable.items():
+                print(f"{var_name}: {var_nr}")
+
+# Example usage:
+reader = VARListReader()
+reader.ReadVARListFile('theLXMVARListFile.csv', print_list=True)
+```

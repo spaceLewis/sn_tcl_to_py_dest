@@ -1,0 +1,39 @@
+
+
+import csv
+import os
+
+class SafetyErrorList:
+    def __init__(self):
+        self.theSafetyErrorList = []
+
+    def read_safety_error_file(self, filename):
+        if not isinstance(filename, str) or not filename.endswith('.csv'):
+            raise ValueError("Invalid filename")
+
+        try:
+            with open(filename, 'r') as file:
+                reader = csv.reader(file)
+                for row in reader:
+                    self.theSafetyErrorList.append(row)
+        except FileNotFoundError:
+            raise FileNotFoundError(f"File '{filename}' not found")
+        except Exception as e:
+            raise Exception(f"Error reading file '{filename}': {str(e)}")
+
+    def get_safety_error_list(self):
+        return self.theSafetyErrorList
+
+def main():
+    try:
+        safety_error_list = SafetyErrorList()
+        filename = 'theSafetyErrorFile.csv'
+        if not os.path.isfile(filename):
+            raise FileNotFoundError(f"File '{filename}' not found")
+        safety_error_list.read_safety_error_file(filename)
+        print(safety_error_list.get_safety_error_list())
+    except Exception as e:
+        print(f"Error: {str(e)}")
+
+if __name__ == "__main__":
+    main()

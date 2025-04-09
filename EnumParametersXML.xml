@@ -1,0 +1,47 @@
+
+
+```python
+import xml.etree.ElementTree as ET
+import logging
+
+class XMLParser:
+    def __init__(self, file_path):
+        self.file_path = file_path
+
+    def parse_xml(self):
+        try:
+            tree = ET.parse(self.file_path)
+            root = tree.getroot()
+            return root
+        except FileNotFoundError:
+            logging.error(f"File {self.file_path} not found")
+            return None
+        except ET.ParseError:
+            logging.error(f"Failed to parse XML file {self.file_path}")
+            return None
+
+class EnumParametersXML:
+    def __init__(self, file_path):
+        self.file_path = file_path
+        self.AssociatedList = []
+        self.xml_parser = XMLParser(file_path)
+
+    def parse_xml(self):
+        root = self.xml_parser.parse_xml()
+        if root is not None:
+            for param in root.findall('.//parameter'):
+                param_id = param.get('id')
+                list_id = param.get('list_id')
+                if param_id is not None and list_id is not None:
+                    self.AssociatedList.append((param_id, list_id))
+
+    def get_associated_list(self):
+        if not self.AssociatedList:
+            logging.warning("AssociatedList is empty")
+        return self.AssociatedList
+
+# Example usage:
+xml_parser = EnumParametersXML('EnumParametersXML.xml')
+xml_parser.parse_xml()
+print(xml_parser.get_associated_list())
+```

@@ -1,2 +1,11 @@
-[requires]
-python_version >= "3"
+
+
+pymodbus==2.5.3
+tlwrite==1.0.0
+dowaitforobject==1.0.0
+tlerror==1.0.0
+tlprint==1.0.0
+string==1.0.0
+binary==1.0.0
+format==1.0.0
+regexp==1.0.0

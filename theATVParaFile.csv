@@ -1,0 +1,21 @@
+
+
+```python
+import csv
+
+theATVParaNameTable = []
+theATVParaIndexTable = []
+theATVenumListTable = []
+theATVenumValueTable = []
+theATVenumNameTable = []
+
+with open('theATVParaFile.csv', 'r') as file:
+    reader = csv.reader(file)
+    next(reader)  # Skip header
+    for row in reader:
+        theATVParaNameTable.append(row[0])
+        theATVParaIndexTable.append(row[1])
+        theATVenumListTable.append(row[2])
+        theATVenumValueTable.append(row[3])
+        theATVenumNameTable.append(row[4])
+```

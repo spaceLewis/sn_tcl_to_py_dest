@@ -1,0 +1,24 @@
+
+
+```python
+import csv
+
+theNERAParaNameRecord = []
+theNERAParaIndexRecord = []
+theNERAParaTypeRecord = []
+theNERAParaLengthRecord = []
+
+try:
+    with open('theNERAParaFile.csv', 'r') as file:
+        reader = csv.reader(file)
+        next(reader)  # Skip header
+        for row in reader:
+            theNERAParaNameRecord.append(row[0])
+            theNERAParaIndexRecord.append(row[1])
+            theNERAParaTypeRecord.append(row[2])
+            theNERAParaLengthRecord.append(row[3])
+except FileNotFoundError:
+    print("File not found")
+except csv.Error as e:
+    print("Error reading CSV file: " + e)
+```
